@@ -29,3 +29,7 @@ def main():
     else:
         logger.info("upload record success !")
     return resp, code
+
+@app.route("/index.html", methods=["GET"])
+def index():
+    return "welcome", 200
