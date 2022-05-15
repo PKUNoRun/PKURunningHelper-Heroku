@@ -34,7 +34,7 @@ except (ImportError, SystemError, ValueError):
 
 try:
     from ..util import (
-            Config, Logger,
+            Logger,
             pretty_json, json_dump,
             json,
         )
@@ -42,13 +42,10 @@ except (ImportError, SystemError, ValueError):
     import sys
     sys.path.append('../')
     from util import (
-            Config, Logger,
+            Logger,
             pretty_json, json_dump,
             json,
         )
-
-
-config = Config()
 
 
 __all__ = ["PKURunnerClient",]
@@ -146,9 +143,9 @@ class PKURunnerClient(object):
     BaseURL = "https://pkunewyouth.pku.edu.cn"
 
 
-    def __init__(self):
-        studentID = config.get("PKURunner", "StudentID")
-        password = config.get("PKURunner", "Password")
+    def __init__(self, **kwargs):
+        studentID = kwargs["StudentID"]
+        password = kwargs["Password"]
         self.studentID = studentID
         self.iaaa = IAAAClient(studentID, password)
         self.access_token = self.iaaa.get_token()
@@ -282,8 +279,9 @@ class PKURunnerClient(object):
             }, auth=self.auth)
 
         if not respJson["data"]["verified"]:
-            raise PKURunnerNotVerifiedError("record is not verified, check your running params setting.")
-
+            return False, respJson
+            # raise PKURunnerNotVerifiedError("record is not verified, check your running params setting.")
+        return True, respJson
 
     @unauthorized_retry(1)
     def get_badges(self):
@@ -299,15 +297,15 @@ class PKURunnerClient(object):
         respJson = self.get("weather/all", verify_success=False)
 
 
-    def run(self):
+    def run(self, **kwargs):
         """ 项目主程序外部调用接口
         """
-        distance = config.getfloat("PKURunner", "distance") # 总距离 km
-        pace = config.getfloat("PKURunner", "pace") # 速度 min/km
-        stride_frequncy = config.getint("PKURunner", "stride_frequncy") # 步频 step/min
+        distance = float(kwargs["distance"]) # 总距离 km
+        pace = float(kwargs["pace"]) # 速度 min/km
+        stride_frequncy = int(kwargs["stride_frequncy"]) # 步频 step/min
 
         record = Record(distance, pace, stride_frequncy)
-        self.upload_record_without_photo(record)
+        return self.upload_record_without_photo(record)
 
 
 if __name__ == '__main__':

@@ -98,11 +98,10 @@ class Logger(object):
                 console_headler  logging.StreamHandler  控制台日志 handler
     """
     Default_Name = __name__
-    config = Config()
 
     def __init__(self, name=None):
         self.logger = logging.getLogger(name or self.Default_Name)
-        self.level = logging.DEBUG if self.config.getboolean("Base", "debug") else logging.INFO
+        self.level = logging.INFO
         self.logger.setLevel(self.level)
         self.add_handler(self.console_headler)
 

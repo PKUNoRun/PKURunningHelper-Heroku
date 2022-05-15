@@ -17,26 +17,16 @@ except (ImportError, SystemError, ValueError):
 
 try:
     from ..util import (
-            Config, Logger,
-            json_load, json_dump, MD5,
+            Logger, MD5,
             JSONDecodeError,
         )
 except (ImportError, SystemError, ValueError):
     import sys
     sys.path.append('../')
     from util import (
-            Config, Logger,
-            json_load, json_dump, MD5,
+            Logger, MD5,
             JSONDecodeError
         )
-
-
-Root_Dir = os.path.join(os.path.dirname(__file__), "../")
-Cache_Dir = os.path.join(Root_Dir, "cache/")
-
-json_dump = partial(json_dump, Cache_Dir)
-json_load = partial(json_load, Cache_Dir)
-
 
 __all__ = ["IAAAClient",]
 
@@ -67,6 +57,8 @@ class IAAAClient(object):
     def __init__(self, studentID, password):
         self.studentID = studentID
         self.password = password
+        self.token = None
+        self.expire_in = int(time.time()) - 1
 
     @property
     def headers(self):
@@ -135,14 +127,10 @@ class IAAAClient(object):
                 "otpCode": "",                  # 该字段必须要有
             })
 
-        token = respJson.get('token')
+        self.token = respJson.get('token')
+        self.expire_in = int(time.time()) + self.Token_Expired
 
-        json_dump(self.Cache_AccessToken, {
-                "token": token,
-                "expire_in": int(time.time()) + self.Token_Expired
-            })
-
-        return token
+        return self.token
 
     def get_token(self, refresh=False):
         """ 如果 token 没有过期，则返回缓存 token ，否则重新登录
@@ -156,11 +144,10 @@ class IAAAClient(object):
             if refresh:
                 token = self.__login()
             else:
-                tokenCache = json_load(self.Cache_AccessToken)
-                if tokenCache["expire_in"] < time.time():
+                if (self.expire_in < time.time()) or (self.token==None):
                     token = self.__login()
                 else:
-                    token = tokenCache["token"]
+                    token = self.token
         except (FileNotFoundError, JSONDecodeError): # 无缓存文件或者文件为空
             token = self.__login()
         finally:
