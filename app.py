@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # filename: runner.py
 
-from flask import Flask, request, Response
+from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
@@ -22,7 +22,8 @@ def main():
     try:
         timestamp = time.time()
         if "timestamp" in request.form:
-            timestamp=float(request.form["timestamp"])
+            if len(request.form["timestamp"]) > 0:
+                timestamp=float(request.form["timestamp"])
         client = Client(StudentID=request.form["StudentID"], Password=request.form["Password"])
         success, resp = client.run(distance=request.form["distance"], pace=request.form["pace"], stride_frequncy=request.form["stride_frequncy"], timestamp=timestamp)
     except Exception as err:
@@ -35,7 +36,7 @@ def main():
 
 @app.route("/")
 def homepage():
-    return "welcome", 200
+    return render_template('index.html'), 200
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)

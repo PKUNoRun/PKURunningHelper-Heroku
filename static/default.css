@@ -1,0 +1,158 @@
+.c_button_main {
+    position: absolute;
+    left: 0;
+    top: 40%;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    width: 20%;
+    height: 6%;
+    background: #28a746;
+    border-radius: 10px;
+    color: white;
+    font-size: larger;
+    border: 0px;
+}
+
+.c_button_main:hover {
+    background: #38b866;
+}
+
+.hid {
+    display: none;
+}
+
+.c_div_main {
+    animation: c_div_main_show 2s;
+    -webkit-animation: c_div_main_show 2s;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+    display: block;
+    height: 60%;
+    width: 20%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+}
+
+.c_div_main.show.fade {
+    animation: c_div_main_fade 2s;
+    -webkit-animation: c_div_main_fade 2s;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.c_input_blank {
+    border-radius: 10px;
+    border: 1px;
+    padding: 5px;
+    margin: auto;
+    display: block;
+    width: 100%;
+    height: 8%;
+    font-size: larger;
+    margin-bottom: 3%;
+}
+
+.c_button_submit {
+    display: none;
+}
+
+h1 {
+    position: absolute;
+    left: 0;
+    top: 10%;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+}
+
+@keyframes c_loading_icon_show {
+    0% {
+        filter: blur(50px);
+        -webkit-filter: blur(50px);
+    }
+    100% {
+        filter: blur(0px);
+        -webkit-filter: blur(0px);
+    }
+}
+
+@keyframes c_loading_icon_loading {
+    0% {
+        filter: blur(0px);
+        -webkit-filter: blur(0px);
+    }
+    50% {
+        filter: blur(10px);
+        -webkit-filter: blur(10px);
+    }
+    100% {
+        filter: blur(0px);
+        -webkit-filter: blur(0px);
+    }
+}
+
+@keyframes c_loading_icon_fade {
+    100% {
+        filter: blur(50px);
+        -webkit-filter: blur(50px);
+        display: none;
+    }
+}
+
+.c_loading_icon {
+    display: none;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+}
+
+.c_loading_icon.show {
+    display: block;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    animation: c_loading_icon_show 2s;
+    -webkit-animation: c_loading_icon_show 2s;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.c_loading_icon.show.loading {
+    display: block;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    animation: c_loading_icon_loading 2s;
+    -webkit-animation: c_loading_icon_loading 2s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    /* animation-delay: 2s; */
+    animation-timing-function: ease-in-out;
+}
+
+.c_loading_icon.show.loading.fade {
+    animation: c_loading_icon_fade 2s;
+    -webkit-animation: c_loading_icon_fade 2s;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+}

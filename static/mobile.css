@@ -1,0 +1,16 @@
+.c_button_main {
+    top: 60% !important;
+    width: 60% !important;
+    height: 8% !important;
+    font-size: x-large !important;
+}
+
+.c_div_main.show {
+    width: 60% !important;
+}
+
+.c_input_blank {
+    height: 12% !important;
+    font-size: large !important;
+    margin-bottom: 1% !important;
+}

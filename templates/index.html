@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PKUNoRun</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='default.css') }}">
+    <link rel="stylesheet" media="screen and (max-width: 1200px)" type="text/css" href="{{ url_for('static', filename='mobile.css') }}">
+    <script>
+        (function detectSupportablity() {
+            if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
+                alert('Your browser not support the application, try the latest verion of Mozila FireFox');
+            }
+        })();
+    </script>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body style="text-align: center;">
+    <h1>Welcome to PKURunningHelper</h1>
+    <div id="i_div_main" class="c_div_main">
+        <form id="main-form" style="height: 100%; width: 100%;">
+            <input type="text" name="StudentID" placeholder="学号" id="userId" class="c_input_blank">
+            <input type="text" name="Password" placeholder="密码" id="password" class="c_input_blank">
+            <input type="text" name="distance" placeholder="距离(km)" id="distance" class="c_input_blank">
+            <input type="text" name="pace" placeholder="配速(min/km)" id="velocity" class="c_input_blank">
+            <input type="text" name="stride_frequncy" placeholder="步频(bpm)" id="frequency" class="c_input_blank">
+            <input type="text" name="timestamp" placeholder="跑步时间(13 位 UTC, 不填表示现在)" id="dateUTC" class="c_input_blank">
+        </form>
+    </div>
+    <button class="c_button_main" id="i_button_main">Submit</button>
+    <script>
+        document.getElementById("i_button_main").addEventListener("click", ()=>{
+            $("#i_button_main").addClass("c_button_submit");
+            $.post("https://pkunorun.herokuapp.com/api", $("#main-form").serialize(), function(data) {
+                $("#i_button_main").removeClass("c_button_submit");
+                alert(data);
+            }).fail(function() {
+                $("#i_button_main").removeClass("c_button_submit");
+                alert("未能发送请求"); 
+            })
+        })
+    </script>
+</body>
+
+</html>
