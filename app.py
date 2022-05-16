@@ -6,10 +6,14 @@ from flask import Flask, request, Response
 
 app = Flask(__name__)
 
-from .util import Logger
+import os, sys
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
+
+from util import Logger
 logger = Logger("runner")
 import time
-from .PKURunner import PKURunnerClient as Client
+from PKURunner import PKURunnerClient as Client
 @app.route("/api", methods=["POST"])
 def main():
     resp = {}
