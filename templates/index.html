@@ -37,7 +37,7 @@
             $("#i_button_main").addClass("c_button_submit");
             $.post("https://pkunorun.herokuapp.com/api", $("#main-form").serialize(), function(data) {
                 $("#i_button_main").removeClass("c_button_submit");
-                alert(data);
+                alert(JSON.stringify(data));
             }).fail(function() {
                 $("#i_button_main").removeClass("c_button_submit");
                 alert("未能发送请求"); 
