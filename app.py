@@ -11,7 +11,7 @@ logger = Logger("runner")
 
 from PKURunner import PKURunnerClient as Client
 
-app = Flask("PKURunningHelper-Heroku")
+app = Flask(__name__)
 
 @app.route("/api", methods=["POST"])
 def main():
