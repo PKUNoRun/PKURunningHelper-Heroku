@@ -7,8 +7,6 @@ from flask import Flask, request, Response
 
 from util import Logger
 
-import json
-
 logger = Logger("runner")
 
 from PKURunner import PKURunnerClient as Client
@@ -34,6 +32,9 @@ def main():
         logger.info("upload record success !")
     return resp, code
 
-@app.route("/index.html", methods=["GET"])
+@app.route("/")
 def index():
     return "welcome", 200
+
+if __name__ == "__main__":
+    app.run(debug=False)
