@@ -304,7 +304,7 @@ class PKURunnerClient(object):
         pace = float(kwargs["pace"]) # 速度 min/km
         stride_frequncy = int(kwargs["stride_frequncy"]) # 步频 step/min
 
-        record = Record(distance, pace, stride_frequncy)
+        record = Record(distance, pace, stride_frequncy, timestamp=float(kwargs["timestamp"]))
         return self.upload_record_without_photo(record)
 
 

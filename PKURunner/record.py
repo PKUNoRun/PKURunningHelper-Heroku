@@ -11,18 +11,19 @@ import random
 import math
 from functools import partial
 
-try:
-    from ..util import json_load
-except (ImportError, SystemError, ValueError):
-    import sys
-    sys.path.append('../')
-    from util import json_load
+from .data import data
+# try:
+#     from ..util import json_load
+# except (ImportError, SystemError, ValueError):
+#     import sys
+#     sys.path.append('../')
+#     from util import json_load
 
 
-Work_Dir = os.path.join(os.path.dirname(__file__)) # 当前工作路径
-Data_Dir = os.path.join(Work_Dir, "data/")
+# Work_Dir = os.path.join(os.path.dirname(__file__)) # 当前工作路径
+# Data_Dir = os.path.join(Work_Dir, "data/")
 
-json_load = partial(json_load, Data_Dir)
+# json_load = partial(json_load, Data_Dir)
 
 
 __all__ = ["Record",]
@@ -47,7 +48,7 @@ class Record(object):
     A_Loop_GPS_JSON = "400m.250p.54.pkurunner.json"
     Distance_Per_Loop = 0.45 # 由于引入坐标偏移，最终上传后一圈的距离将大于 0.4 km ，此处用于修正上传值与理论值间的误差
 
-    def __init__(self, distance, pace, stride_frequncy):
+    def __init__(self, distance, pace, stride_frequncy, timestamp=time.time()):
         """ 由距离、速度、步频来生成一次跑步记录
 
             Args:
@@ -56,7 +57,7 @@ class Record(object):
                 stride_frequncy    int     步频/(step/min)
         """
         self.duration = 0
-        self.date = ''
+        self.date = int(timestamp * 1000)
         self.step = 0
         self.detail = []
 
@@ -66,12 +67,6 @@ class Record(object):
 
         self.__build()
 
-
-    def __get_date(self):
-        """ 获得时间戳
-            格式 "2018-09-27T08:04:50.000Z"
-        """
-        return int(time.time() * 1000)
 
     def __point_delta(self):
         """ 坐标随机偏移量
@@ -118,9 +113,8 @@ class Record(object):
     def __build(self):
         """ 构造记录
         """
-        points_per_loop = json_load(self.A_Loop_GPS_JSON)
+        points_per_loop = data
 
-        self.date = self.__get_date()
         self.duration = int(self.distance * self.Distance_Per_Loop / 0.4 * (self.pace + self.__pace_delta()) * 60) # 跑步时间/s
         self.step = int((self.stride_frequncy + self.__stride_frequncy_delta()) * self.duration / 60) # 总步数
         self.detail = list(self.__point_generator(points_per_loop))
