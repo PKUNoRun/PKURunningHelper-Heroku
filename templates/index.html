@@ -37,10 +37,10 @@
             $("#i_button_main").addClass("c_button_submit");
             $.post("https://pkunorun.herokuapp.com/api", $("#main-form").serialize(), function(data) {
                 $("#i_button_main").removeClass("c_button_submit");
-                alert(JSON.stringify(data));
+                alert(`响应:${JSON.stringify(data)}\n上传成功:${data["success"]?"是":"否"}\n记录有效:${data["data"]["verified"]?"是":"否"}`);
             }).fail(function() {
                 $("#i_button_main").removeClass("c_button_submit");
-                alert("未能发送请求"); 
+                alert("请求失败");
             })
         })
     </script>
