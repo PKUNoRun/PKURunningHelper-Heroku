@@ -2,17 +2,14 @@
 # -*- coding: utf-8 -*-
 # filename: runner.py
 
-import time
 from flask import Flask, request, Response
-
-from util import Logger
-
-logger = Logger("runner")
-
-from PKURunner import PKURunnerClient as Client
 
 app = Flask(__name__)
 
+from .util import Logger
+logger = Logger("runner")
+import time
+from .PKURunner import PKURunnerClient as Client
 @app.route("/api", methods=["POST"])
 def main():
     resp = {}
@@ -33,7 +30,7 @@ def main():
     return resp, code
 
 @app.route("/")
-def index():
+def homepage():
     return "welcome", 200
 
 if __name__ == "__main__":
