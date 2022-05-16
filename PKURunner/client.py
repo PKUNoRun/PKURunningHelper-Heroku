@@ -9,7 +9,6 @@ import os
 import uuid
 import requests
 from requests.auth import AuthBase
-from requests_toolbelt import MultipartEncoder
 from functools import wraps
 from hashlib import sha256
 
