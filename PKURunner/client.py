@@ -258,7 +258,7 @@ class PKURunnerClient(object):
     def upload_record_without_photo(self, record):
         """ 不带自拍，上传跑步记录
         """
-        abstract = sha256(f'{self.studentID}_{record.date}_XlQ1zscp'.encode('utf-8')).hexdigest()[:32]
+        abstract = sha256(f'{self.studentID}_{record.date}_YCVNc92y'.encode('utf-8')).hexdigest()[:32]
         record.step = record.step // 17 * 17
         m = CustomMultipartEncoder({
             'duration': int(record.duration),
